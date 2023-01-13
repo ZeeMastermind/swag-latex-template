@@ -1,0 +1,201 @@
+\title{SWAG LaTeX TEMPLATE}
+\author{BY WRITER - ART BY ARTIST}
+% make sure to switch out title and author with your own information!
+
+
+
+\documentclass[10pt]{article}
+
+\usepackage{tgpagella} % text only
+\usepackage{graphicx} %LaTeX package to import graphics\usepackage{blindtext}
+\usepackage{multicol}
+\usepackage{titlesec}
+\usepackage{titling}
+\usepackage{fontspec}
+\usepackage{wrapfig}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{changepage}
+\usepackage{xcolor,colortbl}
+\usepackage[framemethod=PStricks]{mdframed}
+\usepackage{lipsum}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{stfloats}
+
+\usepackage[%
+    left=0.50in,%
+    right=0.50in,%
+    top=0.50in,%
+    bottom=0.50in,%
+    paperheight=10in,%
+    paperwidth=6.5in%
+]{geometry}%
+
+\setlist[itemize]{noitemsep,leftmargin=*}
+\setlength{\columnsep}{0.125in}
+\graphicspath{{images/}} %configuring the graphicx package
+
+
+
+\definecolor{swred}{RGB}{139, 7, 9}
+% \definecolor{swredPrint}{CMYK}{0, 95, 94, 45}
+% Switch to CMYK if sending to printer - MAKE SURE TO TEST PRINT!
+
+
+\newfontfamily\headingfont[]{LeagueGothic}[ 
+Extension = .otf,
+UprightFont = *-Regular]
+
+
+\titlespacing\titleformat*{\section}{\LARGE\headingfont\filcenter}
+\titleformat*{\subsection}{\Large\headingfont\filcenter}
+\titleformat*{\subsubsection}{\large\headingfont\filcenter}
+
+\newcolumntype{P}[1]{>{\centering\arraybackslash\color{white}\columncolor{swred}}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash\color{white}\columncolor{swred}}m{#1}}
+
+
+
+
+%\begin{mdframed}[roundcorner=5pt,backgroundcolor=swred,outermargin  =-0.5in,innermargin =-0.5in, topline=false, bottomline=false, rightline=false, leftline=false]
+%\begin{center}
+%{\color{white}\LARGE\bfseries\headingfont\filcenter{INTRODUCTION}}
+%\end{center}
+%\end{mdframed}
+
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist
+
+\newenvironment{BoxedInternal}[1][]
+{%
+  \begin{changemargin}{0cm}{0cm}%
+    \begin{mdframed}[roundcorner=5pt,backgroundcolor=swred,outermargin  =-0.5in,innermargin =-0.5in, topline=false, bottomline=false, rightline=false, leftline=false,#1]
+    }{%
+    \end{mdframed}%
+  \end{changemargin}%
+}
+
+\newcommand*{\noind}{\setlength{\parindent}{0cm}} % macro for not indenting paragraphs
+
+\newcommand{\bighdr}[2][]{%
+  \begin{BoxedInternal}[#1]{}
+    \color{white}\huge\bfseries\headingfont\filcenter{#2}
+  \end{BoxedInternal}%
+}
+
+
+%{\noind{\Large\bfseries\headingfont{SMALL SECTION}}}
+%\vspace{-9pt}% <- adjust here the space between text and your line
+
+%\noindent\rule{2.75in}{2pt} % underlines
+
+
+\newcommand{\medhdr}[1][]{%
+	{\noind{\Large\bfseries\headingfont{#1}}}
+	\vspace{-9pt}% <- adjust here the space between text and your line
+
+	\noindent\rule{2.75in}{2pt} % underlines
+}
+
+\newcommand{\smlhdr}[1][]{%
+	{\noind{\large\bfseries\headingfont{#1}}}
+}
+
+
+% Be careful about messing with the title, this is easy to break
+\makeatletter
+
+\newfontfamily\myfont[]{FiraSans}
+
+
+
+\renewcommand\maketitle{
+{
+\begin{center}
+\begin{adjustwidth}{-0.50in}{-0.50in}
+\begin{tabular}{  M{2in}  M{4.5in}  } 
+
+	\multirow{3}{*} { }  & {\Huge\headingfont\bfseries \vspace{6pt}\@title\vspace{4pt}}\\
+	                                 & { \myfont\bfseries {A SHORT DESCRIPTION OF YOUR CONTENT}}\\
+	                                & { \myfont\bfseries \@author\vspace{2pt}}\\
+
+\end{tabular}
+\end{adjustwidth}
+\end{center}
+\begin{tikzpicture}[remember picture,overlay]
+    \node[xshift=0.4in,yshift=-0.35in,anchor=north west] at (current page.north west){%
+    \includegraphics[scale=0.6]{SWAG_Logo.png}};
+\end{tikzpicture}
+}} % Note the extra }
+\makeatother
+
+% makes the title and the "used with permission" textblock
+\begin{document}
+\maketitle\thispagestyle{empty}  % If you don't want any page numbers, change to "\maketitle\pagenumbering{gobble}"
+\begin{table}[b]
+\begin{adjustwidth}{-0.50in}{-0.50in}
+\begin{tabular}{ M{0.5in} M{5.5in} M{0.5in} }
+{} & \footnotesize\centering
+This game references the Savage Worlds game system, available from Pinnacle Entertainment Group at www.peginc.com. Savage Worlds and all associated logos and trademarks are copyrights of Pinnacle Entertainment Group. Used with permission. Pinnacle makes no representation or warranty as to the quality, viability, or suitability for purpose of this product. & {}\\
+\end{tabular}
+\end{adjustwidth}
+\end{table}
+\begin{multicols}{2} % sets columns to 2
+
+{\noind
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Fermentum et sollicitudin ac orci. Tellus integer feugiat scelerisque varius morbi enim nunc. At quis risus sed vulputate odio ut enim blandit. Metus aliquam eleifend mi in nulla. Eu nisl nunc mi ipsum. Malesuada bibendum arcu vitae elementum curabitur vitae nunc sed velit. Amet purus gravida quis blandit turpis. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Vulputate ut pharetra sit amet aliquam id. Purus sit amet volutpat consequat mauris nunc. Integer vitae justo eget magna fermentum iaculis. Ullamcorper malesuada proin libero nunc consequat interdum varius. Orci phasellus egestas tellus rutrum tellus pellentesque eu. Magna fringilla urna porttitor rhoncus dolor. Id consectetur purus ut faucibus. Feugiat in ante metus dictum at tempor commodo ullamcorper. Egestas integer eget aliquet nibh praesent. Venenatis lectus magna fringilla urna.)
+}
+
+\bighdr{INTRODUCTION}
+{\noind
+Felis donec et odio pellentesque diam volutpat. Posuere sollicitudin aliquam ultrices sagittis. At volutpat diam ut venenatis tellus in metus vulputate. Et sollicitudin ac orci phasellus egestas tellus. Arcu vitae elementum curabitur vitae nunc sed velit dignissim. Sed augue lacus viverra vitae congue eu. Imperdiet massa tincidunt nunc pulvinar sapien et. Ac turpis egestas maecenas pharetra convallis posuere morbi. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium. Arcu dictum varius duis at consectetur. Sed odio morbi quis commodo odio aenean.
+}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Fermentum et sollicitudin ac orci. Tellus integer feugiat scelerisque varius morbi enim nunc. At quis risus sed vulputate odio ut enim blandit. Metus aliquam eleifend mi in nulla. Eu nisl nunc mi ipsum. Malesuada bibendum arcu vitae elementum curabitur vitae nunc sed velit. Amet purus gravida quis blandit turpis. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Vulputate ut pharetra sit amet aliquam id. Purus sit amet volutpat consequat mauris nunc. Integer vitae justo eget magna fermentum iaculis. Ullamcorper malesuada proin libero nunc consequat interdum varius. Orci phasellus egestas tellus rutrum tellus pellentesque eu. Magna fringilla urna porttitor rhoncus dolor. Id consectetur purus ut faucibus. Feugiat in ante metus dictum at tempor commodo ullamcorper. Egestas integer eget aliquet nibh praesent. Venenatis lectus magna fringilla urna.)\\
+
+\medhdr[SMALL SECTION]
+{\noind
+Quisque non tellus orci ac auctor augue mauris augue neque. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Etiam sit amet nisl purus in mollis nunc sed id. Et tortor consequat id porta nibh venenatis cras sed. Non odio euismod lacinia at quis risus. Facilisis leo vel fringilla est. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum a. Cras semper auctor neque vitae. Tellus mauris a diam maecenas. Euismod nisi porta lorem mollis. Arcu bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Venenatis cras sed felis eget velit aliquet sagittis.\\
+}
+
+\smlhdr[SMALLER SECTION]
+
+{\noind
+Quisque non tellus orci ac auctor augue mauris augue neque. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Etiam sit amet nisl purus in mollis nunc sed id. Et tortor consequat id porta nibh venenatis cras sed. Non odio euismod lacinia at quis risus. Facilisis leo vel fringilla est. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum a. Cras semper auctor neque vitae. Tellus mauris a diam maecenas. Euismod nisi porta lorem mollis. Arcu bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Venenatis cras sed felis eget velit aliquet sagittis.
+}
+
+\bighdr{COOL STUFF}
+{\noind
+Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Tortor consequat id porta nibh venenatis cras sed felis. Elit sed vulputate mi sit amet mauris commodo quis. Nullam non nisi est sit amet facilisis magna etiam tempor. Fringilla urna porttitor rhoncus dolor purus non enim praesent. Ullamcorper dignissim cras tincidunt lobortis feugiat. Tempus egestas sed sed risus. Velit aliquet sagittis id consectetur purus. Libero id faucibus nisl tincidunt eget. Phasellus vestibulum lorem sed risus ultricies. Interdum velit laoreet id donec ultrices. Malesuada fames ac turpis egestas sed. In hendrerit gravida rutrum quisque non.
+}
+
+Ultrices dui sapien eget mi proin sed libero. Diam vel quam elementum pulvinar etiam non quam lacus suspendisse. Enim neque volutpat ac tincidunt vitae. Auctor augue mauris augue neque. Elit eget gravida cum sociis natoque penatibus et magnis dis. Vulputate eu scelerisque felis imperdiet proin fermentum leo vel orci. Consequat interdum varius sit amet mattis vulputate enim nulla. Ut faucibus pulvinar elementum integer enim. Elementum curabitur vitae nunc sed velit. Et tortor at risus viverra.\\
+
+\medhdr[ANOTHER SMALL SECTION]
+{\noind
+Felis donec et odio pellentesque diam volutpat. Posuere sollicitudin aliquam ultrices sagittis. At volutpat diam ut venenatis tellus in metus vulputate. Et sollicitudin ac orci phasellus egestas tellus. Arcu vitae elementum curabitur vitae nunc sed velit dignissim. Sed augue lacus viverra vitae congue eu. Imperdiet massa tincidunt nunc pulvinar sapien et. Ac turpis egestas maecenas pharetra convallis posuere morbi. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium. Arcu dictum varius duis at consectetur. Sed odio morbi quis commodo odio aenean.
+}
+
+Quisque non tellus orci ac auctor augue mauris augue neque. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Etiam sit amet nisl purus in mollis nunc sed id. Et tortor consequat id porta nibh venenatis cras sed. Non odio euismod lacinia at quis risus. Facilisis leo vel fringilla est. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum a. Cras semper auctor neque vitae. Tellus mauris a diam maecenas. Euismod nisi porta lorem mollis. Arcu bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Venenatis cras sed felis eget velit aliquet sagittis.
+
+\bighdr{OTHER STUFF}
+{\noind
+Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Tortor consequat id porta nibh venenatis cras sed felis. Elit sed vulputate mi sit amet mauris commodo quis. Nullam non nisi est sit amet facilisis magna etiam tempor. Fringilla urna porttitor rhoncus dolor purus non enim praesent. Ullamcorper dignissim cras tincidunt lobortis feugiat. Tempus egestas sed sed risus. Velit aliquet sagittis id consectetur purus. Libero id faucibus nisl tincidunt eget. Phasellus vestibulum lorem sed risus ultricies. Interdum velit laoreet id donec ultrices. Malesuada fames ac turpis egestas sed. In hendrerit gravida rutrum quisque non.
+}
+
+Ultrices dui sapien eget mi proin sed libero. Diam vel quam elementum pulvinar etiam non quam lacus suspendisse. Enim neque volutpat ac tincidunt vitae. Auctor augue mauris augue neque. Elit eget gravida cum sociis natoque penatibus et magnis dis. Vulputate eu scelerisque felis imperdiet proin fermentum leo vel orci. Consequat interdum varius sit amet mattis vulputate enim nulla. Ut faucibus pulvinar elementum integer enim. Elementum curabitur vitae nunc sed velit. Et tortor at risus viverra.
+
+\begin{itemize}
+\item Item 1
+\item Item 2
+\item Item 3
+\end{itemize}
+
+Ultrices dui sapien eget mi proin sed libero. Diam vel quam elementum pulvinar etiam non quam lacus suspendisse. Enim neque volutpat ac tincidunt vitae. Auctor augue mauris augue neque. Elit eget gravida cum sociis natoque penatibus et magnis dis. Vulputate eu scelerisque felis imperdiet proin fermentum leo vel orci. Consequat interdum varius sit amet mattis vulputate enim nulla. Ut faucibus pulvinar elementum integer enim. Elementum curabitur vitae nunc sed velit. Et tortor at risus viverra.
+
+Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Tortor consequat id porta nibh venenatis cras sed felis. Elit sed vulputate mi sit amet mauris commodo quis. Nullam non nisi est sit amet facilisis magna etiam tempor. Fringilla urna porttitor rhoncus dolor purus non enim praesent. Ullamcorper dignissim cras tincidunt lobortis feugiat. Tempus egestas sed sed risus. Velit aliquet sagittis id consectetur purus. Libero id faucibus nisl tincidunt eget. Phasellus vestibulum lorem sed risus ultricies. Interdum velit laoreet id donec ultrices. Malesuada fames ac turpis egestas sed. In hendrerit gravida rutrum quisque non.
+
+\end{multicols}
+\end{document}
