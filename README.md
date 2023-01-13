@@ -17,18 +17,18 @@ Finally, you can start switching out the Lorem Ipsum text and headers with your 
 
 I have a few macros set up to make things easier:
 
-  {\noind 
-  A paragraph of text. 
-  }
+    {\noind 
+    A paragraph of text. 
+    }
 
 The \noind macro just removes an indentation from a paragraph. By default, LaTeX indents all paragraphs.
 
-  \bighdr{INTRODUCTION}
+    \bighdr{INTRODUCTION}
  
  The \bighdr macro creates the large red headers
  
-  \medhdr[SMALL HEADER]
-  \smlhdr[SMALLER HEADER]
+    \medhdr[SMALL HEADER]
+    \smlhdr[SMALLER HEADER]
  
 The \medhdr and \smlhdr macros create the other headers. \medhdr is the underlined one (with the horizontal rule). Note that these place the text in square brackets [] instead of curly brackets {} like \bighdr.
 
