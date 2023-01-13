@@ -5,7 +5,7 @@ Template in LaTeX for SWAG content. It's not as accurate as the inDesign templat
 
 You will need to either get a LaTeX editor or use an online one like Overleaf (free if you're a student). If you use an online editor, SAVE YOUR TEXT SOMEWHERE ELSE FIRST! It can be a google doc, a back of a napkin, whatever. 
 
-I use TeXStudio, but it doesn't really matter as long as it can compile LaTeX as LuaLaTex.
+I use TeXWorks, but it doesn't really matter as long as it can compile LaTeX as LuaLaTex.
 
 Then, download the swag_template.tex file and the images folder. You will also have to find SWAG_logo.png from DTRPG or Pinnacle's website and place it in the folder. You may need the fonts in this repository as well: otherwise, they are in Pinnacle's indesign template on DTRPG.
 
