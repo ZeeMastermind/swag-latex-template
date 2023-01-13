@@ -1,4 +1,4 @@
-\title{SWAG LaTeX TEMPLATE}
+\title{UNOFFICIAL SWAG LaTeX TEMPLATE}
 \author{BY WRITER - ART BY ARTIST}
 % make sure to switch out title and author with your own information!
 
@@ -37,7 +37,7 @@
 \setlength{\columnsep}{0.125in}
 \graphicspath{{images/}} %configuring the graphicx package
 
-
+\setmainfont{Palatino Linotype}
 
 \definecolor{swred}{RGB}{139, 7, 9}
 % \definecolor{swredPrint}{CMYK}{0, 95, 94, 45}
@@ -80,9 +80,10 @@ UprightFont = *-Regular]
 \newcommand*{\noind}{\setlength{\parindent}{0cm}} % macro for not indenting paragraphs
 
 \newcommand{\bighdr}[2][]{%
+\vspace{2pt}
   \begin{BoxedInternal}[#1]{}
     \color{white}\huge\bfseries\headingfont\filcenter{#2}
-  \end{BoxedInternal}%
+  \end{BoxedInternal}\vspace{-8pt}%
 }
 
 
@@ -94,7 +95,7 @@ UprightFont = *-Regular]
 
 \newcommand{\medhdr}[1][]{%
 	{\noind{\Large\bfseries\headingfont{#1}}}
-	\vspace{-9pt}% <- adjust here the space between text and your line
+	\vspace{-9pt}
 
 	\noindent\rule{2.75in}{2pt} % underlines
 }
@@ -142,6 +143,7 @@ This game references the Savage Worlds game system, available from Pinnacle Ente
 \end{tabular}
 \end{adjustwidth}
 \end{table}
+
 \begin{multicols}{2} % sets columns to 2
 
 {\noind
@@ -153,12 +155,18 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Felis donec et odio pellentesque diam volutpat. Posuere sollicitudin aliquam ultrices sagittis. At volutpat diam ut venenatis tellus in metus vulputate. Et sollicitudin ac orci phasellus egestas tellus. Arcu vitae elementum curabitur vitae nunc sed velit dignissim. Sed augue lacus viverra vitae congue eu. Imperdiet massa tincidunt nunc pulvinar sapien et. Ac turpis egestas maecenas pharetra convallis posuere morbi. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium. Arcu dictum varius duis at consectetur. Sed odio morbi quis commodo odio aenean.
 }
 
+\begin{figure*}[ht]
+\centering
+\includegraphics[width=\textwidth]{universe.jpg}
+\end{figure*}
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Fermentum et sollicitudin ac orci. Tellus integer feugiat scelerisque varius morbi enim nunc. At quis risus sed vulputate odio ut enim blandit. Metus aliquam eleifend mi in nulla. Eu nisl nunc mi ipsum. Malesuada bibendum arcu vitae elementum curabitur vitae nunc sed velit. Amet purus gravida quis blandit turpis. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Vulputate ut pharetra sit amet aliquam id. Purus sit amet volutpat consequat mauris nunc. Integer vitae justo eget magna fermentum iaculis. Ullamcorper malesuada proin libero nunc consequat interdum varius. Orci phasellus egestas tellus rutrum tellus pellentesque eu. Magna fringilla urna porttitor rhoncus dolor. Id consectetur purus ut faucibus. Feugiat in ante metus dictum at tempor commodo ullamcorper. Egestas integer eget aliquet nibh praesent. Venenatis lectus magna fringilla urna.)\\
 
 \medhdr[SMALL SECTION]
 {\noind
 Quisque non tellus orci ac auctor augue mauris augue neque. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Etiam sit amet nisl purus in mollis nunc sed id. Et tortor consequat id porta nibh venenatis cras sed. Non odio euismod lacinia at quis risus. Facilisis leo vel fringilla est. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum a. Cras semper auctor neque vitae. Tellus mauris a diam maecenas. Euismod nisi porta lorem mollis. Arcu bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Venenatis cras sed felis eget velit aliquet sagittis.\\
 }
+
 
 \smlhdr[SMALLER SECTION]
 
