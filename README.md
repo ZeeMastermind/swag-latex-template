@@ -1,6 +1,8 @@
 # SWAG LaTeX Template
 Template in LaTeX for SWAG content. It's not as accurate as the inDesign template, but it's free :)
 
+For the purpose of copyright/fair use/etc., consider anything that might be "mine" to be public domain. The specifications of the layout and the art all belong to Pinnacle. Refer to their site for information here: https://peginc.com/swag-savage-worlds-adventurers-guild/
+
 # How to Use
 
 You will need to either get a LaTeX editor or use an online one like Overleaf (free if you're a student). If you use an online editor, SAVE YOUR TEXT SOMEWHERE ELSE FIRST! It can be a google doc, a back of a napkin, whatever. 
