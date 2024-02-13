@@ -16,7 +16,7 @@
 \usepackage{titling}
 \usepackage{fontspec}
 \usepackage{wrapfig}
-\usepackage{array}
+\usepackage{array,tabularx}
 \usepackage{adjustbox}
 \usepackage{multirow}
 \usepackage{changepage}
@@ -26,14 +26,15 @@
 \usepackage{tikz}
 \usepackage{enumitem}
 \usepackage{stfloats}
+\usepackage{environ}
 
 \usepackage[%
-    left=0.50in,%
-    right=0.50in,%
-    top=0.50in,%
-    bottom=0.50in,%
-    paperheight=10in,%
-    paperwidth=6.5in%
+left=0.50in,%
+right=0.50in,%
+top=0.50in,%
+bottom=0.50in,%
+paperheight=10in,%
+paperwidth=6.5in%
 ]{geometry}%
 
 \setlist[itemize]{noitemsep,leftmargin=*}
@@ -44,6 +45,8 @@
 \setmainfont{Palatino Linotype}
 
 \definecolor{swred}{RGB}{139, 7, 9}
+\definecolor{swrowodd}{RGB}{223, 214, 189}
+\definecolor{swroweven}{RGB}{242, 239, 229}
 % \definecolor{swredPrint}{CMYK}{0, 95, 94, 45}
 % Switch to CMYK if sending to printer - MAKE SURE TO TEST PRINT!
 
@@ -81,7 +84,7 @@ UprightFont = *-Regular]
 \newcommand*{\noind}{\setlength{\parindent}{0cm}} % macro for not indenting paragraphs
 
 \newcommand{\bighdr}[2][]{%
-\vspace{2pt}
+  \vspace{2pt}
   \begin{BoxedInternal}[#1]{}
     \color{white}\huge\bfseries\headingfont\filcenter{#2}
   \end{BoxedInternal}\vspace{-8pt}%
@@ -99,6 +102,31 @@ UprightFont = *-Regular]
 	{\noind{\large\bfseries\headingfont{#1}}}
 }
 
+\newsavebox{\tablebox}
+\NewEnviron{swtable}[4][0.5]{
+  \vspace{10pt}  
+  \noind{
+    \addcontentsline{lot}{table}{#2}
+    \addtolength{\extrarowheight}{1.2ex}
+    \rowcolors{0}{swrowodd}{swroweven}
+    \savebox{\tablebox}{%
+      \begin{tabularx}{#1\textwidth}{#4}
+        \multicolumn{#3}{c}{\cellcolor{swred}\color{white}\Large\bfseries\headingfont{\MakeUppercase{#2}}}  \\
+        \BODY%
+      \end{tabularx}}
+    \begin{tikzpicture}
+      \begin{scope}
+        \clip[rounded corners=5pt] (0,-\dp\tablebox) -- (\wd\tablebox,-\dp\tablebox) -- (\wd\tablebox,\ht\tablebox) -- (0,\ht\tablebox) -- cycle;
+        \node at (0,-\dp\tablebox) [anchor=south west,inner sep=0pt]{\usebox{\tablebox}};
+      \end{scope}
+    \end{tikzpicture}
+  }
+}
+\newcommand{\swtableheader}[1]{
+  % unfortunately I can't figure out how to pass "header1 & header2" as a parameter to environment
+  \cellcolor{black}
+  \textcolor{white}{\myfont\bfseries\MakeUppercase{#1}}
+}
 
 % Be careful about messing with the title, this is easy to break
 \makeatletter
@@ -108,101 +136,111 @@ UprightFont = *-Regular]
 
 
 \renewcommand\maketitle{
-{
-\begin{center}
-\begin{adjustwidth}{-0.50in}{-0.50in}
-\begin{tabular}{  M{2in}   M{4.5in}  } 
-\arrayrulecolor{swred}
-	\multirow{3}{*} { }  & {\Huge\headingfont\bfseries \vspace{6pt}\@title\vspace{4pt}}\\
-	                                 & { \myfont\bfseries \desc}\\
-	                                & { \myfont\bfseries \@author\vspace{2pt}}\\
+  {
+    \begin{center}
+      \begin{adjustwidth}{-0.50in}{-0.50in}
+        \begin{tabular}{  M{2in}   M{4.5in}  } 
+          \arrayrulecolor{swred}
+          \multirow{3}{*} { }  & {\Huge\headingfont\bfseries \vspace{6pt}\@title\vspace{4pt}}\\
+                               & { \myfont\bfseries \desc}\\
+                               & { \myfont\bfseries \@author\vspace{2pt}}\\
 
-\end{tabular}
-\end{adjustwidth}
-\end{center}
-\begin{tikzpicture}[remember picture,overlay]
-    \node[xshift=0.4in,yshift=-0.35in,anchor=north west] at (current page.north west){%
-    \includegraphics[scale=0.6]{SWAG_Logo.png}};
-\end{tikzpicture}
-}} % Note the extra }
+        \end{tabular}
+      \end{adjustwidth}
+    \end{center}
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[xshift=0.4in,yshift=-0.35in,anchor=north west] at (current page.north west){%
+        \includegraphics[scale=0.6]{SWAG_Logo.png}};
+    \end{tikzpicture}
+  }} % Note the extra }
 \makeatother
 
 % makes the title and the "used with permission" textblock
 \begin{document}
 \maketitle\thispagestyle{empty}  % If you don't want any page numbers, change to "\maketitle\pagenumbering{gobble}"
 \begin{table}[b]
-\begin{adjustwidth}{-0.50in}{-0.50in}
-\begin{tabular}{ M{0.5in} M{5.5in} M{0.5in} }
-{} & \footnotesize\centering
-This game references the Savage Worlds game system, available from Pinnacle Entertainment Group at www.peginc.com. Savage Worlds and all associated logos and trademarks are copyrights of Pinnacle Entertainment Group. Used with permission. Pinnacle makes no representation or warranty as to the quality, viability, or suitability for purpose of this product. & {}\\
-\end{tabular}
-\end{adjustwidth}
+  \begin{adjustwidth}{-0.50in}{-0.50in}
+    \begin{tabular}{ M{0.5in} M{5.5in} M{0.5in} }
+      {} & \footnotesize\centering
+           This game references the Savage Worlds game system, available from Pinnacle Entertainment Group at www.peginc.com. Savage Worlds and all associated logos and trademarks are copyrights of Pinnacle Entertainment Group. Used with permission. Pinnacle makes no representation or warranty as to the quality, viability, or suitability for purpose of this product. & {}\\
+    \end{tabular}
+  \end{adjustwidth}
 \end{table}
 
 \begin{multicols}{2} % sets columns to 2
-% This is where your content starts!
-{\noind % this is a macro that makes sure this paragraph isn't indented. By default, all paragraphs are indented.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Fermentum et sollicitudin ac orci. Tellus integer feugiat scelerisque varius morbi enim nunc. At quis risus sed vulputate odio ut enim blandit. Metus aliquam eleifend mi in nulla. Eu nisl nunc mi ipsum. Malesuada bibendum arcu vitae elementum curabitur vitae nunc sed velit. Amet purus gravida quis blandit turpis. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Vulputate ut pharetra sit amet aliquam id. Purus sit amet volutpat consequat mauris nunc. Integer vitae justo eget magna fermentum iaculis. Ullamcorper malesuada proin libero nunc consequat interdum varius. Orci phasellus egestas tellus rutrum tellus pellentesque eu. Magna fringilla urna porttitor rhoncus dolor. Id consectetur purus ut faucibus. Feugiat in ante metus dictum at tempor commodo ullamcorper. Egestas integer eget aliquet nibh praesent. Venenatis lectus magna fringilla urna.)
-} % Make sure not to delete this: you need it to close out the \noind command
+  % This is where your content starts!
+  {\noind % this is a macro that makes sure this paragraph isn't indented. By default, all paragraphs are indented.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Fermentum et sollicitudin ac orci. Tellus integer feugiat scelerisque varius morbi enim nunc. At quis risus sed vulputate odio ut enim blandit. Metus aliquam eleifend mi in nulla. Eu nisl nunc mi ipsum. Malesuada bibendum arcu vitae elementum curabitur vitae nunc sed velit. Amet purus gravida quis blandit turpis. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Vulputate ut pharetra sit amet aliquam id. Purus sit amet volutpat consequat mauris nunc. Integer vitae justo eget magna fermentum iaculis. Ullamcorper malesuada proin libero nunc consequat interdum varius. Orci phasellus egestas tellus rutrum tellus pellentesque eu. Magna fringilla urna porttitor rhoncus dolor. Id consectetur purus ut faucibus. Feugiat in ante metus dictum at tempor commodo ullamcorper. Egestas integer eget aliquet nibh praesent. Venenatis lectus magna fringilla urna.)
+  } % Make sure not to delete this: you need it to close out the \noind command
 
-\bighdr{INTRODUCTION} % This is the big red header
-{\noind
-Felis donec et odio pellentesque diam volutpat. Posuere sollicitudin aliquam ultrices sagittis. At volutpat diam ut venenatis tellus in metus vulputate. Et sollicitudin ac orci phasellus egestas tellus. Arcu vitae elementum curabitur vitae nunc sed velit dignissim. Sed augue lacus viverra vitae congue eu. Imperdiet massa tincidunt nunc pulvinar sapien et. Ac turpis egestas maecenas pharetra convallis posuere morbi. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium. Arcu dictum varius duis at consectetur. Sed odio morbi quis commodo odio aenean.
-}
+  \bighdr{INTRODUCTION} % This is the big red header
+  {\noind
+    Felis donec et odio pellentesque diam volutpat. Posuere sollicitudin aliquam ultrices sagittis. At volutpat diam ut venenatis tellus in metus vulputate. Et sollicitudin ac orci phasellus egestas tellus. Arcu vitae elementum curabitur vitae nunc sed velit dignissim. Sed augue lacus viverra vitae congue eu. Imperdiet massa tincidunt nunc pulvinar sapien et. Ac turpis egestas maecenas pharetra convallis posuere morbi. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium. Arcu dictum varius duis at consectetur. Sed odio morbi quis commodo odio aenean.
+  }
 
-\begin{figure*}[ht] % This is the image you see on page 2! Because I specified that I wanted it at the top of the page, LaTeX finds the next available page with an empty top. Since the first page already has the logo and title, it places this image on the second page
-\centering
-\includegraphics[width=\textwidth]{universe.jpg} 
-\end{figure*}
-% Make sure this is a CMYK image if you are sending this to a printer
+  \begin{figure*}[ht] % This is the image you see on page 2! Because I specified that I wanted it at the top of the page, LaTeX finds the next available page with an empty top. Since the first page already has the logo and title, it places this image on the second page
+    \centering
+    \includegraphics[width=\textwidth]{universe.jpg} 
+  \end{figure*}
+  % Make sure this is a CMYK image if you are sending this to a printer
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Fermentum et sollicitudin ac orci. Tellus integer feugiat scelerisque varius morbi enim nunc. At quis risus sed vulputate odio ut enim blandit. Metus aliquam eleifend mi in nulla. Eu nisl nunc mi ipsum. Malesuada bibendum arcu vitae elementum curabitur vitae nunc sed velit. Amet purus gravida quis blandit turpis. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Vulputate ut pharetra sit amet aliquam id. Purus sit amet volutpat consequat mauris nunc. Integer vitae justo eget magna fermentum iaculis. Ullamcorper malesuada proin libero nunc consequat interdum varius. Orci phasellus egestas tellus rutrum tellus pellentesque eu. Magna fringilla urna porttitor rhoncus dolor. Id consectetur purus ut faucibus. Feugiat in ante metus dictum at tempor commodo ullamcorper. Egestas integer eget aliquet nibh praesent. Venenatis lectus magna fringilla urna.)\\
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Fermentum et sollicitudin ac orci. Tellus integer feugiat scelerisque varius morbi enim nunc. At quis risus sed vulputate odio ut enim blandit. Metus aliquam eleifend mi in nulla. Eu nisl nunc mi ipsum. Malesuada bibendum arcu vitae elementum curabitur vitae nunc sed velit. Amet purus gravida quis blandit turpis. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Vulputate ut pharetra sit amet aliquam id. Purus sit amet volutpat consequat mauris nunc. Integer vitae justo eget magna fermentum iaculis. Ullamcorper malesuada proin libero nunc consequat interdum varius. Orci phasellus egestas tellus rutrum tellus pellentesque eu. Magna fringilla urna porttitor rhoncus dolor. Id consectetur purus ut faucibus. Feugiat in ante metus dictum at tempor commodo ullamcorper. Egestas integer eget aliquet nibh praesent. Venenatis lectus magna fringilla urna.)\\
 
-\medhdr[SMALL SECTION] % This is the medium header with the horizontal rule
-{\noind
-Quisque non tellus orci ac auctor augue mauris augue neque. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Etiam sit amet nisl purus in mollis nunc sed id. Et tortor consequat id porta nibh venenatis cras sed. Non odio euismod lacinia at quis risus. Facilisis leo vel fringilla est. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum a. Cras semper auctor neque vitae. Tellus mauris a diam maecenas. Euismod nisi porta lorem mollis. Arcu bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Venenatis cras sed felis eget velit aliquet sagittis.\\
-}
-
-
-\smlhdr[SMALLER SECTION] % this is the smallest header
-
-{\noind
-Quisque non tellus orci ac auctor augue mauris augue neque. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Etiam sit amet nisl purus in mollis nunc sed id. Et tortor consequat id porta nibh venenatis cras sed. Non odio euismod lacinia at quis risus. Facilisis leo vel fringilla est. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum a. Cras semper auctor neque vitae. Tellus mauris a diam maecenas. Euismod nisi porta lorem mollis. Arcu bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Venenatis cras sed felis eget velit aliquet sagittis.
-}
-
-\bighdr{COOL STUFF}
-{\noind
-Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Tortor consequat id porta nibh venenatis cras sed felis. Elit sed vulputate mi sit amet mauris commodo quis. Nullam non nisi est sit amet facilisis magna etiam tempor. Fringilla urna porttitor rhoncus dolor purus non enim praesent. Ullamcorper dignissim cras tincidunt lobortis feugiat. Tempus egestas sed sed risus. Velit aliquet sagittis id consectetur purus. Libero id faucibus nisl tincidunt eget. Phasellus vestibulum lorem sed risus ultricies. Interdum velit laoreet id donec ultrices. Malesuada fames ac turpis egestas sed. In hendrerit gravida rutrum quisque non.
-}
-
-Ultrices dui sapien eget mi proin sed libero. Diam vel quam elementum pulvinar etiam non quam lacus suspendisse. Enim neque volutpat ac tincidunt vitae. Auctor augue mauris augue neque. Elit eget gravida cum sociis natoque penatibus et magnis dis. Vulputate eu scelerisque felis imperdiet proin fermentum leo vel orci. Consequat interdum varius sit amet mattis vulputate enim nulla. Ut faucibus pulvinar elementum integer enim. Elementum curabitur vitae nunc sed velit. Et tortor at risus viverra.\\
-
-\medhdr[ANOTHER SMALL SECTION]
-{\noind
-Felis donec et odio pellentesque diam volutpat. Posuere sollicitudin aliquam ultrices sagittis. At volutpat diam ut venenatis tellus in metus vulputate. Et sollicitudin ac orci phasellus egestas tellus. Arcu vitae elementum curabitur vitae nunc sed velit dignissim. Sed augue lacus viverra vitae congue eu. Imperdiet massa tincidunt nunc pulvinar sapien et. Ac turpis egestas maecenas pharetra convallis posuere morbi. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium. Arcu dictum varius duis at consectetur. Sed odio morbi quis commodo odio aenean.
-}
-
-Quisque non tellus orci ac auctor augue mauris augue neque. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Etiam sit amet nisl purus in mollis nunc sed id. Et tortor consequat id porta nibh venenatis cras sed. Non odio euismod lacinia at quis risus. Facilisis leo vel fringilla est. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum a. Cras semper auctor neque vitae. Tellus mauris a diam maecenas. Euismod nisi porta lorem mollis. Arcu bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Venenatis cras sed felis eget velit aliquet sagittis.
-
-\bighdr{OTHER STUFF}
-{\noind
-Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Tortor consequat id porta nibh venenatis cras sed felis. Elit sed vulputate mi sit amet mauris commodo quis. Nullam non nisi est sit amet facilisis magna etiam tempor. Fringilla urna porttitor rhoncus dolor purus non enim praesent. Ullamcorper dignissim cras tincidunt lobortis feugiat. Tempus egestas sed sed risus. Velit aliquet sagittis id consectetur purus. Libero id faucibus nisl tincidunt eget. Phasellus vestibulum lorem sed risus ultricies. Interdum velit laoreet id donec ultrices. Malesuada fames ac turpis egestas sed. In hendrerit gravida rutrum quisque non.
-}
-
-Ultrices dui sapien eget mi proin sed libero. Diam vel quam elementum pulvinar etiam non quam lacus suspendisse. Enim neque volutpat ac tincidunt vitae. Auctor augue mauris augue neque. Elit eget gravida cum sociis natoque penatibus et magnis dis. Vulputate eu scelerisque felis imperdiet proin fermentum leo vel orci. Consequat interdum varius sit amet mattis vulputate enim nulla. Ut faucibus pulvinar elementum integer enim. Elementum curabitur vitae nunc sed velit. Et tortor at risus viverra.
-
-\begin{itemize} %example of an unordered list
-\item Item 1
-\item Item 2
-\item Item 3
-\end{itemize}
-
-Ultrices dui sapien eget mi proin sed libero. Diam vel quam elementum pulvinar etiam non quam lacus suspendisse. Enim neque volutpat ac tincidunt vitae. Auctor augue mauris augue neque. Elit eget gravida cum sociis natoque penatibus et magnis dis. Vulputate eu scelerisque felis imperdiet proin fermentum leo vel orci. Consequat interdum varius sit amet mattis vulputate enim nulla. Ut faucibus pulvinar elementum integer enim. Elementum curabitur vitae nunc sed velit. Et tortor at risus viverra.
-
-Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Tortor consequat id porta nibh venenatis cras sed felis. Elit sed vulputate mi sit amet mauris commodo quis. Nullam non nisi est sit amet facilisis magna etiam tempor. Fringilla urna porttitor rhoncus dolor purus non enim praesent. Ullamcorper dignissim cras tincidunt lobortis feugiat. Tempus egestas sed sed risus. Velit aliquet sagittis id consectetur purus. Libero id faucibus nisl tincidunt eget. Phasellus vestibulum lorem sed risus ultricies. Interdum velit laoreet id donec ultrices. Malesuada fames ac turpis egestas sed. In hendrerit gravida rutrum quisque non.
+  \medhdr[SMALL SECTION] % This is the medium header with the horizontal rule
+  {\noind
+    Quisque non tellus orci ac auctor augue mauris augue neque. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Etiam sit amet nisl purus in mollis nunc sed id. Et tortor consequat id porta nibh venenatis cras sed. Non odio euismod lacinia at quis risus. Facilisis leo vel fringilla est. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum a. Cras semper auctor neque vitae. Tellus mauris a diam maecenas. Euismod nisi porta lorem mollis. Arcu bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Venenatis cras sed felis eget velit aliquet sagittis.\\
+  }
 
 
+  \smlhdr[SMALLER SECTION] % this is the smallest header
 
-% Make sure not to delete these two things
+  {\noind
+    Quisque non tellus orci ac auctor augue mauris augue neque. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Etiam sit amet nisl purus in mollis nunc sed id. Et tortor consequat id porta nibh venenatis cras sed. Non odio euismod lacinia at quis risus. Facilisis leo vel fringilla est. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum a. Cras semper auctor neque vitae. Tellus mauris a diam maecenas. Euismod nisi porta lorem mollis. Arcu bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Venenatis cras sed felis eget velit aliquet sagittis.
+  }
+
+  \bighdr{COOL STUFF}
+  {\noind
+    Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Tortor consequat id porta nibh venenatis cras sed felis. Elit sed vulputate mi sit amet mauris commodo quis. Nullam non nisi est sit amet facilisis magna etiam tempor. Fringilla urna porttitor rhoncus dolor purus non enim praesent. Ullamcorper dignissim cras tincidunt lobortis feugiat. Tempus egestas sed sed risus. Velit aliquet sagittis id consectetur purus. Libero id faucibus nisl tincidunt eget. Phasellus vestibulum lorem sed risus ultricies. Interdum velit laoreet id donec ultrices. Malesuada fames ac turpis egestas sed. In hendrerit gravida rutrum quisque non.
+  }
+
+  Ultrices dui sapien eget mi proin sed libero. Diam vel quam elementum pulvinar etiam non quam lacus suspendisse. Enim neque volutpat ac tincidunt vitae. Auctor augue mauris augue neque. Elit eget gravida cum sociis natoque penatibus et magnis dis. Vulputate eu scelerisque felis imperdiet proin fermentum leo vel orci. Consequat interdum varius sit amet mattis vulputate enim nulla. Ut faucibus pulvinar elementum integer enim. Elementum curabitur vitae nunc sed velit. Et tortor at risus viverra.\\
+
+  \medhdr[ANOTHER SMALL SECTION]
+  {\noind
+    Felis donec et odio pellentesque diam volutpat. Posuere sollicitudin aliquam ultrices sagittis. At volutpat diam ut venenatis tellus in metus vulputate. Et sollicitudin ac orci phasellus egestas tellus. Arcu vitae elementum curabitur vitae nunc sed velit dignissim. Sed augue lacus viverra vitae congue eu. Imperdiet massa tincidunt nunc pulvinar sapien et. Ac turpis egestas maecenas pharetra convallis posuere morbi. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium. Arcu dictum varius duis at consectetur. Sed odio morbi quis commodo odio aenean.
+  }
+
+  Quisque non tellus orci ac auctor augue mauris augue neque. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Etiam sit amet nisl purus in mollis nunc sed id. Et tortor consequat id porta nibh venenatis cras sed. Non odio euismod lacinia at quis risus. Facilisis leo vel fringilla est. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum a. Cras semper auctor neque vitae. Tellus mauris a diam maecenas. Euismod nisi porta lorem mollis. Arcu bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Venenatis cras sed felis eget velit aliquet sagittis.
+
+  \bighdr{OTHER STUFF}
+  {\noind
+    Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Tortor consequat id porta nibh venenatis cras sed felis. Elit sed vulputate mi sit amet mauris commodo quis. Nullam non nisi est sit amet facilisis magna etiam tempor. Fringilla urna porttitor rhoncus dolor purus non enim praesent. Ullamcorper dignissim cras tincidunt lobortis feugiat. Tempus egestas sed sed risus. Velit aliquet sagittis id consectetur purus. Libero id faucibus nisl tincidunt eget. Phasellus vestibulum lorem sed risus ultricies. Interdum velit laoreet id donec ultrices. Malesuada fames ac turpis egestas sed. In hendrerit gravida rutrum quisque non.
+  }
+
+  Ultrices dui sapien eget mi proin sed libero. Diam vel quam elementum pulvinar etiam non quam lacus suspendisse. Enim neque volutpat ac tincidunt vitae. Auctor augue mauris augue neque. Elit eget gravida cum sociis natoque penatibus et magnis dis. Vulputate eu scelerisque felis imperdiet proin fermentum leo vel orci. Consequat interdum varius sit amet mattis vulputate enim nulla. Ut faucibus pulvinar elementum integer enim. Elementum curabitur vitae nunc sed velit. Et tortor at risus viverra.
+
+  \begin{itemize} %example of an unordered list
+  \item Item 1
+  \item Item 2
+  \item Item 3
+  \end{itemize}
+
+  Ultrices dui sapien eget mi proin sed libero. Diam vel quam elementum pulvinar etiam non quam lacus suspendisse. Enim neque volutpat ac tincidunt vitae. Auctor augue mauris augue neque. Elit eget gravida cum sociis natoque penatibus et magnis dis. Vulputate eu scelerisque felis imperdiet proin fermentum leo vel orci. Consequat interdum varius sit amet mattis vulputate enim nulla. Ut faucibus pulvinar elementum integer enim. Elementum curabitur vitae nunc sed velit. Et tortor at risus viverra.
+
+  \begin{swtable}{Example table}{2}{ c X }
+    \swtableheader{first column} & \swtableheader{second column} \\
+    GK & Paul Robinson \\
+    LB & Lucus Radebe \\
+    DC & Michael Duberry \\
+    DC & Dominic Matteo \\
+    ST & Alan Smith \\
+    ST & Mark Viduka \\
+    TEST & Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Tortor consequat id porta nibh venenatis cras sed felis. Elit sed vulputate mi sit amet mauris commodo quis. Nullam non nisi est sit amet facilisis magna etiam tempor. Fringilla urna porttitor rhoncus dolor purus non enim praesent. \\
+  \end{swtable}
+
+  Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Tortor consequat id porta nibh venenatis cras sed felis. Elit sed vulputate mi sit amet mauris commodo quis. Nullam non nisi est sit amet facilisis magna etiam tempor. Fringilla urna porttitor rhoncus dolor purus non enim praesent. Ullamcorper dignissim cras tincidunt lobortis feugiat. Tempus egestas sed sed risus. Velit aliquet sagittis id consectetur purus. Libero id faucibus nisl tincidunt eget.
+
+
+  % Make sure not to delete these two things
 \end{multicols}
 \end{document}
