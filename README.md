@@ -35,3 +35,8 @@ The \noind macro just removes an indentation from a paragraph. By default, LaTeX
 The \medhdr and \smlhdr macros create the other headers. \medhdr is the underlined one (with the horizontal rule). Note that these place the text in square brackets [] instead of curly brackets {} like \bighdr.
 
 There are a few other macros I use (\desc stores description of the document, \myfont makes text Fira Sans, etc.) but these are the main ones you should know.
+
+# Other
+
+If you want rounded tables as well, please see pan-mroku's fork here: https://github.com/pan-mroku/swag-latex-template/tree/feature/table_annotations
+And if you're able to fix the header-squash issue, definitely feel free to contribute!
